@@ -27,6 +27,9 @@ function setup() {
 function draw() {
   background(0); // Clear the canvas
 
+  // 绘制游戏边框
+  drawBorder();
+
   // If the game is over, display a message and stop game logic
   if (gameOver) {
     fill(255, 0, 0);
@@ -53,6 +56,14 @@ function draw() {
 
   // Display the score
   displayScore();
+}
+
+// 绘制游戏边框
+function drawBorder() {
+  stroke(255); // 边框颜色为白色
+  strokeWeight(4); // 边框线条宽度
+  noFill(); // 边框内部不填充
+  rect(0, 0, cols * resolution, rows * resolution); // 绘制边框
 }
 
 // Create a 2D array to store blocks on the grid
