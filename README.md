@@ -65,7 +65,7 @@ Tetris_of_Color/
 
 ### 游戏界面
 
-![游戏界面](picture/pic1.png)
+![游戏界面](picture/pic2.png)
 
 ---
 
