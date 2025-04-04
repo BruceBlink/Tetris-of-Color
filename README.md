@@ -48,6 +48,12 @@ Tetris_of_Color/
 2. 在 GitHub 仓库的 **Settings** > **Pages** 中启用 GitHub Pages。
 3. 部署完成后，你可以通过 `https://<your-username>.github.io/<your-repo-name>/` 访问游戏。
 
+### 3. 部署到 Vercel
+
+1. 将项目推送到 GitHub 仓库。
+2. 用Vervel关联Github。
+3. 然后直接在Vercel中导入该项目即可。
+
 ---
 
 ## 游戏操作
