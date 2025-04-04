@@ -4,6 +4,7 @@ let cols = 10;
 let rows = 20;
 let resolution;
 let currentPiece;
+let nextPiece; // 新增：存储下一个方块
 let dropInterval = 500; // Time interval for automatic drop (milliseconds)
 let lastDropTime = 0;
 let score = 0; // Score variable
@@ -11,8 +12,8 @@ let gameOver = false; // Game over flag
 
 function setup() {
   // Make the game responsive to the screen size
-  resolution = min(windowWidth / cols, windowHeight / rows);
-  let canvas = createCanvas(cols * resolution, rows * resolution);
+  resolution = min(windowWidth / (cols + 5), windowHeight / rows); // 为右侧提示框预留空间
+  let canvas = createCanvas((cols + 5) * resolution, rows * resolution);
 
   // 将画布附加到 #game-container
   canvas.parent("game-container");
@@ -20,6 +21,7 @@ function setup() {
   // Initialize the grid and create the first piece
   grid = create2DArray(cols, rows);
   currentPiece = new Piece();
+  nextPiece = new Piece(); // 新增：生成下一个方块
 }
 
 function draw() {
@@ -39,6 +41,9 @@ function draw() {
   // Draw the grid and the current falling piece
   drawGrid();
   currentPiece.show();
+
+  // Draw the "Next Piece" box
+  drawNextPiece();
 
   // Manage automatic drop based on timer
   if (millis() - lastDropTime > dropInterval) {
@@ -78,6 +83,42 @@ function displayScore() {
   textSize(24);
   textAlign(LEFT, TOP); // Ensure score is displayed at the top-left corner
   text(`Score: ${score}`, 10, 10); // Fixed position for the score
+}
+
+// Draw the "Next Piece" box
+function drawNextPiece() {
+  let boxX = cols * resolution + 10; // 提示框的 X 坐标
+  let boxY = 10; // 提示框的 Y 坐标
+  let boxWidth = 4 * resolution; // 提示框宽度
+  let boxHeight = 4 * resolution; // 提示框高度
+
+  // 绘制提示框背景
+  fill(50);
+  stroke(255);
+  rect(boxX, boxY, boxWidth, boxHeight);
+
+  // 绘制下一个方块
+  if (nextPiece) {
+    fill(nextPiece.color);
+    for (let row = 0; row < nextPiece.shape.length; row++) {
+      for (let col = 0; col < nextPiece.shape[row].length; col++) {
+        if (nextPiece.shape[row][col] === 1) {
+          rect(
+            boxX + col * resolution + resolution / 2,
+            boxY + row * resolution + resolution / 2,
+            resolution,
+            resolution
+          );
+        }
+      }
+    }
+  }
+
+  // 显示提示文字
+  fill(255);
+  textSize(16);
+  textAlign(CENTER, TOP);
+  text("Next Piece", boxX + boxWidth / 2, boxY - 20);
 }
 
 // Piece class to handle falling blocks
@@ -167,7 +208,10 @@ class Piece {
       this.y -= 1;
       this.mergeToGrid();
       clearFullRows();
-      currentPiece = new Piece(); // Generate a new piece
+
+      // 将下一个方块变为当前方块，并生成新的下一个方块
+      currentPiece = nextPiece;
+      nextPiece = new Piece();
     }
   }
 
@@ -269,6 +313,7 @@ function keyPressed() {
 function restartGame() {
   grid = create2DArray(cols, rows); // Reset the grid
   currentPiece = new Piece(); // Create a new piece
+  nextPiece = new Piece(); // 新增：重置下一个方块
   score = 0; // Reset the score
   gameOver = false; // Reset the game over flag
   lastDropTime = millis(); // Reset the drop timer
@@ -276,6 +321,6 @@ function restartGame() {
 
 // Adjust canvas size when the window is resized
 function windowResized() {
-  resolution = min(windowWidth / cols, windowHeight / rows);
-  resizeCanvas(cols * resolution, rows * resolution);
+  resolution = min(windowWidth / (cols + 5), windowHeight / rows); // 为右侧提示框预留空间
+  resizeCanvas((cols + 5) * resolution, rows * resolution);
 }
