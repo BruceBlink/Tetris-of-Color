@@ -99,15 +99,25 @@ function drawNextPiece() {
 
   // 绘制下一个方块
   if (nextPiece) {
+    let scaleFactor = 0.7; // 缩放比例，确保方块适应提示框
+
+    // 计算方块的实际宽度和高度
+    let pieceWidth = nextPiece.shape[0].length * resolution * scaleFactor;
+    let pieceHeight = nextPiece.shape.length * resolution * scaleFactor;
+
+    // 计算偏移量，使方块居中
+    let offsetX = boxX + (boxWidth - pieceWidth) / 2;
+    let offsetY = boxY + (boxHeight - pieceHeight) / 2;
+
     fill(nextPiece.color);
     for (let row = 0; row < nextPiece.shape.length; row++) {
       for (let col = 0; col < nextPiece.shape[row].length; col++) {
         if (nextPiece.shape[row][col] === 1) {
           rect(
-            boxX + col * resolution + resolution / 2,
-            boxY + row * resolution + resolution / 2,
-            resolution,
-            resolution
+            offsetX + col * resolution * scaleFactor,
+            offsetY + row * resolution * scaleFactor,
+            resolution * scaleFactor,
+            resolution * scaleFactor
           );
         }
       }
