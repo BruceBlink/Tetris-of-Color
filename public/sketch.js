@@ -38,7 +38,8 @@ function draw() {
     text("Game Over", (cols * resolution) / 2, height / 2); // 修改 x 坐标为游戏区域中央
     textSize(24);
     text("Press R to Restart", (cols * resolution) / 2, height / 2 + 50); // 同样调整 x 坐标
-    return; // Stop further drawing
+    noLoop(); // Stop the draw loop
+    //return; // Stop further drawing
   }
 
   // Draw the grid and the current falling piece
@@ -50,7 +51,10 @@ function draw() {
 
   // Manage automatic drop based on timer
   if (millis() - lastDropTime > dropInterval) {
+    // Check if it's time to drop the piece
+    // Move the piece down
     currentPiece.update();
+
     lastDropTime = millis();
   }
 
@@ -262,6 +266,7 @@ class Piece {
             newY >= rows ||
             grid[newX][newY] !== 0
           ) {
+            //
             return true;
           }
         }
