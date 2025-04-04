@@ -35,9 +35,9 @@ function draw() {
     fill(255, 0, 0);
     textSize(48);
     textAlign(CENTER, CENTER);
-    text("Game Over", width / 2, height / 2);
+    text("Game Over", (cols * resolution) / 2, height / 2); // 修改 x 坐标为游戏区域中央
     textSize(24);
-    text("Press R to Restart", width / 2, height / 2 + 50);
+    text("Press R to Restart", (cols * resolution) / 2, height / 2 + 50); // 同样调整 x 坐标
     return; // Stop further drawing
   }
 
@@ -136,10 +136,10 @@ function drawNextPiece() {
   }
 
   // 显示提示文字
-  fill(255);
+  /*   fill(255);
   textSize(16);
   textAlign(CENTER, TOP);
-  text("Next Piece", boxX + boxWidth / 2, boxY - 20);
+  text("Next Piece", boxX + boxWidth / 2, boxY - 20); */
 }
 
 // Piece class to handle falling blocks
