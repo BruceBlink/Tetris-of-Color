@@ -7,20 +7,35 @@ let currentPiece;
 let dropInterval = 500; // Time interval for automatic drop (milliseconds)
 let lastDropTime = 0;
 let score = 0; // Score variable
+let gameOver = false; // Game over flag
 
 function setup() {
   // Make the game responsive to the screen size
   resolution = min(windowWidth / cols, windowHeight / rows);
-  createCanvas(cols * resolution, rows * resolution);
-  
+  let canvas = createCanvas(cols * resolution, rows * resolution);
+
+  // 将画布附加到 #game-container
+  canvas.parent("game-container");
+
   // Initialize the grid and create the first piece
   grid = create2DArray(cols, rows);
   currentPiece = new Piece();
 }
 
 function draw() {
-  background(0);
-  
+  background(0); // Clear the canvas
+
+  // If the game is over, display a message and stop game logic
+  if (gameOver) {
+    fill(255, 0, 0);
+    textSize(48);
+    textAlign(CENTER, CENTER);
+    text("Game Over", width / 2, height / 2);
+    textSize(24);
+    text("Press R to Restart", width / 2, height / 2 + 50);
+    return; // Stop further drawing
+  }
+
   // Draw the grid and the current falling piece
   drawGrid();
   currentPiece.show();
@@ -30,7 +45,7 @@ function draw() {
     currentPiece.update();
     lastDropTime = millis();
   }
-  
+
   // Display the score
   displayScore();
 }
@@ -61,7 +76,8 @@ function drawGrid() {
 function displayScore() {
   fill(255);
   textSize(24);
-  text(`Score: ${score}`, 10, 30);
+  textAlign(LEFT, TOP); // Ensure score is displayed at the top-left corner
+  text(`Score: ${score}`, 10, 10); // Fixed position for the score
 }
 
 // Piece class to handle falling blocks
@@ -70,12 +86,48 @@ class Piece {
     // Define the shapes and assign colors to each
     this.shapes = [
       { shape: [[1, 1, 1, 1]], color: color(0, 255, 255) }, // I shape
-      { shape: [[1, 1], [1, 1]], color: color(255, 255, 0) }, // O shape
-      { shape: [[0, 1, 0], [1, 1, 1]], color: color(128, 0, 128) }, // T shape
-      { shape: [[1, 0, 0], [1, 1, 1]], color: color(255, 165, 0) }, // L shape
-      { shape: [[0, 0, 1], [1, 1, 1]], color: color(0, 0, 255) }, // J shape
-      { shape: [[1, 1, 0], [0, 1, 1]], color: color(0, 255, 0) }, // S shape
-      { shape: [[0, 1, 1], [1, 1, 0]], color: color(255, 0, 0) } // Z shape
+      {
+        shape: [
+          [1, 1],
+          [1, 1],
+        ],
+        color: color(255, 255, 0),
+      }, // O shape
+      {
+        shape: [
+          [0, 1, 0],
+          [1, 1, 1],
+        ],
+        color: color(128, 0, 128),
+      }, // T shape
+      {
+        shape: [
+          [1, 0, 0],
+          [1, 1, 1],
+        ],
+        color: color(255, 165, 0),
+      }, // L shape
+      {
+        shape: [
+          [0, 0, 1],
+          [1, 1, 1],
+        ],
+        color: color(0, 0, 255),
+      }, // J shape
+      {
+        shape: [
+          [1, 1, 0],
+          [0, 1, 1],
+        ],
+        color: color(0, 255, 0),
+      }, // S shape
+      {
+        shape: [
+          [0, 1, 1],
+          [1, 1, 0],
+        ],
+        color: color(255, 0, 0),
+      }, // Z shape
     ];
 
     // Randomly select a shape
@@ -84,6 +136,11 @@ class Piece {
     this.color = piece.color;
     this.x = 3;
     this.y = 0;
+
+    // Check for immediate collision (game over)
+    if (this.collides()) {
+      gameOver = true; // Set game over flag
+    }
   }
 
   // Display the current piece
@@ -92,7 +149,12 @@ class Piece {
     for (let row = 0; row < this.shape.length; row++) {
       for (let col = 0; col < this.shape[row].length; col++) {
         if (this.shape[row][col] === 1) {
-          rect((this.x + col) * resolution, (this.y + row) * resolution, resolution, resolution);
+          rect(
+            (this.x + col) * resolution,
+            (this.y + row) * resolution,
+            resolution,
+            resolution
+          );
         }
       }
     }
@@ -129,7 +191,12 @@ class Piece {
         if (this.shape[row][col] === 1) {
           let newX = this.x + col;
           let newY = this.y + row;
-          if (newX < 0 || newX >= cols || newY >= rows || grid[newX][newY] !== 0) {
+          if (
+            newX < 0 ||
+            newX >= cols ||
+            newY >= rows ||
+            grid[newX][newY] !== 0
+          ) {
             return true;
           }
         }
@@ -179,6 +246,11 @@ function clearFullRows() {
 
 // Handle keyboard input for controlling the piece
 function keyPressed() {
+  if (gameOver && key.toUpperCase() === "R") {
+    restartGame(); // Press R to restart the game
+    return;
+  }
+
   if (keyCode === LEFT_ARROW) {
     currentPiece.x -= 1;
     if (currentPiece.collides()) currentPiece.x += 1;
@@ -191,6 +263,15 @@ function keyPressed() {
     currentPiece.rotate();
     if (currentPiece.collides()) currentPiece.rotate(); // Rotate back if collides
   }
+}
+
+// Restart the game
+function restartGame() {
+  grid = create2DArray(cols, rows); // Reset the grid
+  currentPiece = new Piece(); // Create a new piece
+  score = 0; // Reset the score
+  gameOver = false; // Reset the game over flag
+  lastDropTime = millis(); // Reset the drop timer
 }
 
 // Adjust canvas size when the window is resized

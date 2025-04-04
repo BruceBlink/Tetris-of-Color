@@ -1,7 +1,29 @@
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
 }
+
+body {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  /* 让页面高度占满视口 */
+  background-color: #000;
+  /* 设置背景颜色 */
+  overflow: hidden;
+  /* 防止滚动条出现 */
+}
+
 canvas {
   display: block;
+}
+
+#game-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
