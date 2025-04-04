@@ -51,8 +51,8 @@ Tetris_of_Color/
 ### 3. 部署到 Vercel
 
 1. 将项目推送到 GitHub 仓库。
-2. 用Vervel关联Github。
-3. 然后直接在Vercel中导入该项目即可。
+2. 用 Vervel 关联 Github。
+3. 然后直接在 Vercel 中导入该项目即可。
 
 ---
 
@@ -71,9 +71,7 @@ Tetris_of_Color/
 
 ### 游戏界面
 
-![游戏界面](picture/pic2.png)
-
----
+## ![游戏界面](picture/pic3.gif)
 
 ## 技术栈
 
