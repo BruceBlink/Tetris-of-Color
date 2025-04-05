@@ -8,6 +8,7 @@ let nextPiece; // 新增：存储下一个方块
 let dropInterval = 500; // Time interval for automatic drop (milliseconds)
 let lastDropTime = 0;
 let score = 0; // Score variable
+let higestScore = 0; // Highest score variable
 let gameOver = false; // Game over flag
 
 function setup() {
@@ -38,6 +39,9 @@ function draw() {
     text("Game Over", (cols * resolution) / 2, height / 2); // 修改 x 坐标为游戏区域中央
     textSize(24);
     text("Press R to Restart", (cols * resolution) / 2, height / 2 + 50); // 同样调整 x 坐标
+    higestScore = max(higestScore, score); // Update highest score if needed
+    score = 0; // Reset score
+    displayScore(); // Display the score
     return; // Stop further drawing
   }
 
@@ -97,6 +101,8 @@ function displayScore() {
   textSize(24);
   textAlign(LEFT, TOP); // Ensure score is displayed at the top-left corner
   text(`Score: ${score}`, 10, 10); // Fixed position for the score
+  textAlign(RIGHT, TOP); // Ensure score is displayed at the top-left corner
+  text(`Higest Score: ${higestScore}`, width - 260, 10); // Fixed position for the score
 }
 
 // Draw the "Next Piece" box
