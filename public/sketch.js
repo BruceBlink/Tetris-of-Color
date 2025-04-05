@@ -38,8 +38,7 @@ function draw() {
     text("Game Over", (cols * resolution) / 2, height / 2); // 修改 x 坐标为游戏区域中央
     textSize(24);
     text("Press R to Restart", (cols * resolution) / 2, height / 2 + 50); // 同样调整 x 坐标
-    noLoop(); // Stop the draw loop
-    //return; // Stop further drawing
+    return; // Stop further drawing
   }
 
   // Draw the grid and the current falling piece
