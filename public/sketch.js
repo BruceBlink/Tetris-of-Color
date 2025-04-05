@@ -93,7 +93,7 @@ function drawGrid() {
 
 // Display the current score
 function displayScore() {
-  fill(255);
+  fill(0, 0, 255);
   textSize(24);
   textAlign(LEFT, TOP); // Ensure score is displayed at the top-left corner
   text(`Score: ${score}`, 10, 10); // Fixed position for the score
@@ -210,6 +210,8 @@ class Piece {
 
   // Display the current piece
   show() {
+    stroke(255);
+    strokeWeight(4);
     fill(this.color);
     for (let row = 0; row < this.shape.length; row++) {
       for (let col = 0; col < this.shape[row].length; col++) {
