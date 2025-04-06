@@ -40,8 +40,9 @@ function draw() {
     textSize(24);
     text("Press R to Restart", (cols * resolution) / 2, height / 2 + 50); // 同样调整 x 坐标
     higestScore = max(higestScore, score); // Update highest score if needed
-    score = 0; // Reset score
+    //score = 0; // Reset score
     displayScore(); // Display the score
+    displayHighestScore(cols * resolution - 50, 10); // Adjusted position for highest score
     return; // Stop further drawing
   }
 
@@ -63,6 +64,8 @@ function draw() {
 
   // Display the score
   displayScore();
+  // Display the highest score
+  displayHighestScore(cols * resolution - 50, 10); // Adjusted position for highest score
 }
 
 // 绘制游戏边框
@@ -101,8 +104,13 @@ function displayScore() {
   textSize(24);
   textAlign(LEFT, TOP); // Ensure score is displayed at the top-left corner
   text(`Score: ${score}`, 10, 10); // Fixed position for the score
+}
+// display the highest score
+function displayHighestScore(x, y) {
+  fill(0, 0, 255);
+  textSize(24);
   textAlign(RIGHT, TOP); // Ensure score is displayed at the top-left corner
-  text(`Higest Score: ${higestScore}`, width - 260, 10); // Fixed position for the score
+  text(`Highest Score: ${higestScore}`, x, y); // Fixed position for the score
 }
 
 // Draw the "Next Piece" box
