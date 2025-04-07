@@ -10,6 +10,8 @@ let lastDropTime = 0;
 let score = 0; // Score variable
 let higestScore = 0; // Highest score variable
 let gameOver = false; // Game over flag
+let handleLeftX = 0; // Handle left position
+let handleLeftY = 0; // Handle left position
 
 function setup() {
   // Make the game responsive to the screen size
@@ -43,6 +45,7 @@ function draw() {
     //score = 0; // Reset score
     displayScore(); // Display the score
     displayHighestScore(cols * resolution - 10, 10); // Adjusted position for highest score
+    displayHandle();
     return; // Stop further drawing
   }
 
@@ -66,6 +69,7 @@ function draw() {
   displayScore();
   // Display the highest score
   displayHighestScore(cols * resolution - 10, 10); // Adjusted position for highest score
+  displayHandle(); // Draw the handle
 }
 
 // 绘制游戏边框
@@ -157,6 +161,30 @@ function drawNextPiece() {
   textSize(16);
   textAlign(CENTER, TOP);
   text("Next Piece", boxX + boxWidth / 2, boxY - 20); */
+}
+
+function displayHandle() {
+  handleLeftX = cols * resolution + 10; // Update the handle's X position
+  handleLeftY = rows * resolution - 4 * resolution; // Update the handle's Y position
+  fill(0);
+  stroke(255);
+  strokeWeight(4);
+  rect(handleLeftX, handleLeftY, 4 * resolution, 4 * resolution); // Draw a rectangle as a handle
+  leftButtonX = handleLeftX; // Update the button's X position
+  leftButtonY = handleLeftY + 1.5 * resolution; // Update the button's Y position
+  downButtonX = handleLeftX + 1.5 * resolution; // Update the button's X position
+  downButtonY = handleLeftY + 3 * resolution; // Update the button's Y position
+  rightButtonX = handleLeftX + 3 * resolution; // Update the button's X position
+  rightButtonY = handleLeftY + 1.5 * resolution; // Update the button's Y position
+  upButtonX = handleLeftX + 1.5 * resolution; // Update the button's X position
+  upButtonY = handleLeftY; // Update the button's Y position
+  fill(0, 255, 255);
+  stroke(255);
+  strokeWeight(4);
+  rect(leftButtonX, leftButtonY, resolution, resolution); // Draw a left button
+  rect(downButtonX, downButtonY, resolution, resolution); // Draw a down button
+  rect(rightButtonX, rightButtonY, resolution, resolution); // Draw a down button
+  rect(upButtonX, upButtonY, resolution, resolution); // Draw a down button
 }
 
 // Piece class to handle falling blocks
