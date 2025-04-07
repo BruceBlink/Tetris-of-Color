@@ -13,6 +13,15 @@ let gameOver = false; // Game over flag
 let handleLeftX = 0; // Handle left position
 let handleLeftY = 0; // Handle left position
 
+let leftButtonX = 0; // Left button position
+let leftButtonY = 0; // Left button position
+let downButtonX = 0; // Down button position
+let downButtonY = 0; // Down button position
+let rightButtonX = 0; // Right button position
+let rightButtonY = 0; // Right button position
+let upButtonX = 0; // Up button position
+let upButtonY = 0; // Up button position
+
 function setup() {
   // Make the game responsive to the screen size
   resolution = min(windowWidth / (cols + 5), windowHeight / rows); // 为右侧提示框预留空间
@@ -375,6 +384,51 @@ function keyPressed() {
   } else if (keyCode === UP_ARROW) {
     currentPiece.rotate();
     if (currentPiece.collides()) currentPiece.rotate(); // Rotate back if collides
+  }
+}
+
+// Handle mouse input for controlling the piece
+function mouseClicked() {
+  // Check if the mouse is within the handle area
+  if (
+    mouseX >= handleLeftX &&
+    mouseX <= handleLeftX + 4 * resolution &&
+    mouseY >= handleLeftY &&
+    mouseY <= handleLeftY + 4 * resolution
+  ) {
+    // Check which button was clicked
+    if (
+      mouseX >= leftButtonX &&
+      mouseX <= leftButtonX + resolution &&
+      mouseY >= leftButtonY &&
+      mouseY <= leftButtonY + resolution
+    ) {
+      currentPiece.x -= 1; // Move left
+      if (currentPiece.collides()) currentPiece.x += 1;
+    } else if (
+      mouseX >= downButtonX &&
+      mouseX <= downButtonX + resolution &&
+      mouseY >= downButtonY &&
+      mouseY <= downButtonY + resolution
+    ) {
+      currentPiece.update(); // Move down
+    } else if (
+      mouseX >= rightButtonX &&
+      mouseX <= rightButtonX + resolution &&
+      mouseY >= rightButtonY &&
+      mouseY <= rightButtonY + resolution
+    ) {
+      currentPiece.x += 1; // Move right
+      if (currentPiece.collides()) currentPiece.x -= 1;
+    } else if (
+      mouseX >= upButtonX &&
+      mouseX <= upButtonX + resolution &&
+      mouseY >= upButtonY &&
+      mouseY <= upButtonY + resolution
+    ) {
+      currentPiece.rotate(); // Rotate piece
+      if (currentPiece.collides()) currentPiece.rotate(); // Rotate back if collides
+    }
   }
 }
 
