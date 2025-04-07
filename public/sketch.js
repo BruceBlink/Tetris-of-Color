@@ -42,7 +42,7 @@ function draw() {
     higestScore = max(higestScore, score); // Update highest score if needed
     //score = 0; // Reset score
     displayScore(); // Display the score
-    displayHighestScore(cols * resolution - 50, 10); // Adjusted position for highest score
+    displayHighestScore(cols * resolution - 10, 10); // Adjusted position for highest score
     return; // Stop further drawing
   }
 
@@ -65,7 +65,7 @@ function draw() {
   // Display the score
   displayScore();
   // Display the highest score
-  displayHighestScore(cols * resolution - 50, 10); // Adjusted position for highest score
+  displayHighestScore(cols * resolution - 10, 10); // Adjusted position for highest score
 }
 
 // 绘制游戏边框
